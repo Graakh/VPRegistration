@@ -128,7 +128,7 @@ namespace VP_RegApplication
                     break;
                 }
             }
-            if (selectedDate != null)
+            if (selectedDate == null)
             {
                 _logger.Warn("No requested date");
                 return false;
@@ -136,9 +136,10 @@ namespace VP_RegApplication
             selectedDate.Click();
 
             remoteWebDriver.FindElementById("ctl00_cp1_btnNext").Click();
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
 
             driverWait.Until(ExpectedConditions.ElementExists((By.Id("ctl00_cp1_txtFirstName"))));
+
             remoteWebDriver.FindElementById("ctl00_cp1_txtFirstName").SendKeys(_info.FirstName.ToUpper());
             remoteWebDriver.FindElementById("ctl00_cp1_txtFamilyName").SendKeys(_info.LastName.ToUpper());
             remoteWebDriver.FindElementById("ctl00_cp1_txtBirthDate_dateInput").SendKeys(_info.DateOfBirth.ToShortDateString());
@@ -156,14 +157,15 @@ namespace VP_RegApplication
             driverWait.Until(ExpectedConditions.ElementExists((By.Id("ctl00_cp1_txtPassportNumber"))));
             remoteWebDriver.FindElementById("ctl00_cp1_txtPassportNumber").SendKeys(_info.Passport.ToUpper());
             remoteWebDriver.FindElementById("ctl00_cp1_txtEmail").SendKeys(_info.Email.ToUpper());
-            remoteWebDriver.FindElementById("ctl00_cp1_txtPhone").SendKeys(_info.DateOfBirth.ToShortDateString());
+            remoteWebDriver.FindElementById("ctl00_cp1_txtPhone").Clear();
+            remoteWebDriver.FindElementById("ctl00_cp1_txtPhone").SendKeys("+"+_info.PhoneNumber);
 
             remoteWebDriver.FindElementById("ctl00_cp1_btnNext").Click();
             Thread.Sleep(500);
 
             remoteWebDriver.FindElementById("ctl00_cp1_btnSend").Click();
             _logger.Info("Registration done");
-            return true;            
+            return true;
         }
 
         private bool AnyDatesAvailable(FirefoxDriver remoteWebDriver)
