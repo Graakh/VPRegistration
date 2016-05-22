@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeathByCaptcha", "DeathByCaptcha\DeathByCaptcha.csproj", "{2A3A4DD2-6700-4319-85FE-7FDE7EACF925}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBC_Examples_C#", "DBC_Examples\DBC_Examples_C#.csproj", "{312E4B72-CEC6-42D7-948C-B3FFD35900DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{235BE401-2F2F-404E-A485-967519E80F14}"
+	ProjectSection(SolutionItems) = preProject
+		Makefile = Makefile
+		Makefile.w32 = Makefile.w32
+		readme.html = readme.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{A60086A4-A532-4862-81C8-14CB6D4E3E32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{F946D2F1-2D28-45F5-B038-034D627ACD0F}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DBC_Examples_VB", "DBC_Examples_VB\DBC_Examples_VB.vbproj", "{A1973E75-FB85-4B25-A8F8-23204616860E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A3A4DD2-6700-4319-85FE-7FDE7EACF925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A3A4DD2-6700-4319-85FE-7FDE7EACF925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A3A4DD2-6700-4319-85FE-7FDE7EACF925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A3A4DD2-6700-4319-85FE-7FDE7EACF925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{312E4B72-CEC6-42D7-948C-B3FFD35900DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{312E4B72-CEC6-42D7-948C-B3FFD35900DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{312E4B72-CEC6-42D7-948C-B3FFD35900DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{312E4B72-CEC6-42D7-948C-B3FFD35900DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1973E75-FB85-4B25-A8F8-23204616860E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1973E75-FB85-4B25-A8F8-23204616860E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1973E75-FB85-4B25-A8F8-23204616860E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1973E75-FB85-4B25-A8F8-23204616860E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = DeathByCaptcha\DeathByCaptcha.csproj
+		version = 4.4
+	EndGlobalSection
+EndGlobal

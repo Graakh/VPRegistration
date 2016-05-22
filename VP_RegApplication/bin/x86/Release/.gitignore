@@ -1,11 +1,15 @@
+/Credentials.txt
+/DeathByCaptcha.dll
+/NLog.config
+/NLog.dll
+/NLog.xml
 /VP_RegApplication.exe
 /VP_RegApplication.exe.config
 /VP_RegApplication.pdb
 /VP_RegApplication.vshost.exe
 /VP_RegApplication.vshost.exe.config
+/VP_RegApplication.vshost.exe.manifest
 /WebDriver.Support.dll
 /WebDriver.Support.xml
 /WebDriver.dll
 /WebDriver.xml
-/Credentials.txt
-/DeathByCaptcha.dll

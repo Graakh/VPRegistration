@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using NLog;
@@ -19,7 +20,9 @@ namespace VP_RegApplication
                 LastName = string.Empty,
                 Passport = string.Empty,
                 Email = string.Empty,
-                PhoneNumber = string.Empty
+                PhoneNumber = string.Empty,
+                Username = string.Empty,
+                Password = string.Empty
             };
         }
 
@@ -37,6 +40,32 @@ namespace VP_RegApplication
 
         public void RegisterCommand_Execute()
         {
+            logger.Info("Read Credentials");
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Credentials.txt")))
+                {
+                    // Loop over the lines in the string.
+                    int count = 0;
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] data = line.Split(':');
+                        Info.Username = data[0].Trim();
+                        Info.Password = data[1].Trim();
+
+                        count++;
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+                MessageBox.Show("Could not read credentials the file");
+            }
+
             logger.Info("Create Navigator");
             var navigator = new VPNavigator(Info);
 
@@ -70,6 +99,9 @@ namespace VP_RegApplication
             public string Passport { get; set; }
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
+
+            public string Username { get; set; }
+            public string Password { get; set; }
 
             public bool IsFilled
             {

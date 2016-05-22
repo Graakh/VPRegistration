@@ -8,8 +8,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
+using DeathByCaptcha;
 using NLog;
-
 
 namespace VP_RegApplication
 {
@@ -22,6 +22,7 @@ namespace VP_RegApplication
 
     public class VPNavigator
     {
+        private int defaultDelayBetweenAttempts = 5000;
         private int _counter = 0;
         private static Logger _logger = LogManager.GetCurrentClassLogger();
         private Presenter.RegisterInfo _info;
@@ -85,11 +86,12 @@ namespace VP_RegApplication
                     if (!PerformRegistration(remoteWebDriver, wait))
                     {
                         _logger.Warn("registration failed");
-                        throw new Exception("Registration failed");
+                        throw new System.Exception("Registration failed");
                     }
                 }
                 else
                 {
+                    Thread.Sleep(defaultDelayBetweenAttempts);
                     remoteWebDriver.FindElementById("ctl00_cp1_btnPrev").Click();
                     _logger.Info("perform next try: " + _counter);
                     TryRegister(wait, remoteWebDriver);
@@ -185,26 +187,34 @@ namespace VP_RegApplication
         private bool GetAndTypeCaptcha(WebDriverWait wait, FirefoxDriver remoteWebDriver)
         {
             _logger.Info("Get Captcha");
-            var captcha = GetCaptcha(wait, remoteWebDriver).ToUpper();
+            Client client = (Client)new SocketClient(_info.Username, _info.Password);
+            var captcha = GetCaptcha(wait, remoteWebDriver, client);
 
-            //Enter Captcha
-            var textBox = remoteWebDriver.FindElementById("cp1_pnlCaptchaBotDetect").FindElement(By.ClassName("riTextBox"));
-            textBox.SendKeys(captcha);
-
-            //Navigate to dates
-            remoteWebDriver.FindElementById("ctl00_cp1_btnNext").Click();
-            Thread.Sleep(500);
-
-            try
+            if (captcha != null && captcha.Solved && captcha.Correct)
             {
-                var captchaError = remoteWebDriver.FindElementById("cp1_lblCaptchaError");
-                _logger.Warn("Sorry, wrong captcha");
-                return false;
+                //Enter Captcha
+                var textBox =
+                    remoteWebDriver.FindElementById("cp1_pnlCaptchaBotDetect").FindElement(By.ClassName("riTextBox"));
+                textBox.SendKeys(captcha.Text);
+
+                //Navigate to dates
+                remoteWebDriver.FindElementById("ctl00_cp1_btnNext").Click();
+                Thread.Sleep(500);
+
+                try
+                {
+                    var captchaError = remoteWebDriver.FindElementById("cp1_lblCaptchaError");
+                    client.Report(captcha);
+                    _logger.Warn("Sorry, wrong captcha");
+                    return false;
+                }
+                catch
+                {
+                    return true;
+                }
             }
-            catch
-            {
-                return true;
-            }
+            _logger.Warn("Captcha recognition error occured");
+            return false;
         }
 
         private void NavigateToFormPage(RemoteWebDriver driver, WebDriverWait driverWait)
@@ -236,7 +246,7 @@ namespace VP_RegApplication
             _logger.Info("Visa type selected");
         }
 
-        private string GetCaptcha(WebDriverWait wait, FirefoxDriver remoteWebDriver)
+        private Captcha GetCaptcha(WebDriverWait wait, FirefoxDriver remoteWebDriver, Client client)
         {
             wait.Until(ExpectedConditions.ElementExists((By.Id("c_pages_form_cp1_captcha1_CaptchaImage"))));
 
@@ -253,7 +263,11 @@ namespace VP_RegApplication
                     imgCap.Save(msCaptcha, ImageFormat.Png);
                     _logger.Info("Sending captcha for solving");
 
-                    return "CAPTCH";
+                    _logger.Info("Your balance is {0:F2} US cents", client.Balance);
+
+
+                    Captcha captcha = client.Decode(msCaptcha, 20);
+                    return captcha;
 
                     //// put your DeathByCaptcha credentials here
                     //var client = new SocketClient("user", "password");
