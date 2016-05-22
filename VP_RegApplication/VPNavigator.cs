@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
+using System.Windows;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
@@ -167,6 +168,8 @@ namespace VP_RegApplication
 
             remoteWebDriver.FindElementById("ctl00_cp1_btnSend").Click();
             _logger.Info("Registration done");
+
+            MessageBox.Show("Please, check registration. DO NOT CLOSE THIS DIALOG");
             return true;
         }
 
@@ -175,11 +178,11 @@ namespace VP_RegApplication
             try
             {
                 remoteWebDriver.FindElementById("cp1_lblNoDates");
+                _logger.Warn("No dates found");
                 return false;
             }
             catch
             {
-                _logger.Warn("No dates found");
                 return true;
             }
         }
@@ -268,29 +271,6 @@ namespace VP_RegApplication
 
                     Captcha captcha = client.Decode(msCaptcha, 20);
                     return captcha;
-
-                    //// put your DeathByCaptcha credentials here
-                    //var client = new SocketClient("user", "password");
-
-                    //Console.WriteLine("Sending request to DeathByCaptcha...");
-                    //var res = client.Decode(msCaptcha.GetBuffer(), 20);
-                    //if (res != null && res.Solved && res.Correct)
-                    //{
-                    //    driver.FindElementByXPath("//input[@name='captcha_code']").SendKeys(res.Text);
-
-                    //    driver.FindElementByXPath("//input[@name='submit']").Click();
-
-                    //    var h4 = driver.FindElementByXPath("//div[@id='case_captcha']//h4");
-                    //    if (!h4.Text.Contains("SUCCESSFULLY"))
-                    //    {
-                    //        Console.WriteLine("The captcha has been solved incorrectly!");
-                    //        client.Report(res);
-                    //    }
-                    //    else
-                    //        Console.WriteLine("The captcha has been solved correctly!");
-                    //}
-                    //else
-                    //    Console.WriteLine("Captcha recognition error occured");
                 }
             }
         }
